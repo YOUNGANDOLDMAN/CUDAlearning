@@ -7,7 +7,7 @@
 typedef float FLOAT;
 
 /* host, add */
-void vec_add_host(FLOAT *x, FLOAT *y, FLOAT *z, int N);
+void vec_add_host(FLOAT *x, FLOAT *y, FLOAT *z, int N);、、
 
 /* device function */
 __global__ void vec_add(FLOAT *x, FLOAT *y, FLOAT *z, int N)
