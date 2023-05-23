@@ -7,18 +7,17 @@
 typedef float FLOAT;
 
 /* host, add */
-void vec_add_host(FLOAT *x, FLOAT *y, FLOAT *z, int N);、、
+void vec_add_host(FLOAT *x, FLOAT *y, FLOAT *z, int N);
 
 /* device function */
-__global__ void vec_add(FLOAT *x, FLOAT *y, FLOAT *z, int N)
+__global__ void vec_add(FLOAT *x, FLOAT *y, FLOAT *z, int N)//和c语言一样的封装函数
 {
     /* 1D block */
-    int idx = get_tid();
-
-    if (idx < N) z[idx] = z[idx] + y[idx] + x[idx];
+    int idx = get_tid();//得到线程的全局编号
+    if (idx < N) z[idx] = z[idx] + y[idx] + x[idx];//函数运算
 }
 
-void vec_add_host(FLOAT *x, FLOAT *y, FLOAT *z, int N)
+void vec_add_host(FLOAT *x, FLOAT *y, FLOAT *z, int N)//有意使用c语言，对比纯c语言和使用cuda的时间对比
 {
     int i;
 
@@ -27,11 +26,11 @@ void vec_add_host(FLOAT *x, FLOAT *y, FLOAT *z, int N)
 
 int main()
 {
-    int N = 20000000;
-    int nbytes = N * sizeof(FLOAT);
+    int N = 20000000;//确定两千万个浮点数
+    int nbytes = N * sizeof(FLOAT);//定义两千万个浮点数数组所需要的内存空间
 
     /* 1D block */
-    int bs = 256;
+    int bs = 256;//一个block里面有256个线程，还是一维
 
     /* 2D grid */
     int s = ceil(sqrt((N + bs - 1.) / bs));
